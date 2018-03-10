@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +89,7 @@ public class InputFragment extends Fragment {
         wordButton = inflatedView.findViewById(R.id.wordButton);
         numberButton = inflatedView.findViewById(R.id.numberButton);
         textDisplay = inflatedView.findViewById(R.id.textDisplay);
-        setButtonListeners(container);
+        setButtonListeners();
 //        return inflater.inflate(R.layout.fragment_input, container, false);
         return inflatedView;
     }
@@ -100,7 +101,7 @@ public class InputFragment extends Fragment {
         }
     }
 
-    private void setButtonListeners(final ViewGroup vg) {
+    private void setButtonListeners() {
         wordButton.setOnClickListener(new View.OnClickListener()     {
 
             @Override
@@ -108,7 +109,6 @@ public class InputFragment extends Fragment {
                 if (wordInput.getText() != null) {
                     userWord = wordInput.getText().toString();
                     textDisplay.setText(userWord);
-                    vg.invalidate();
                 }
             }
         });
@@ -117,7 +117,7 @@ public class InputFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                if (numberInput.getText() != null) {
+                if (TextUtils.isEmpty((CharSequence) numberInput.getText().toString())) {
                     userNumber = Float.valueOf(numberInput.getText().toString());
                     textDisplay.setTextSize(userNumber);
                 }
