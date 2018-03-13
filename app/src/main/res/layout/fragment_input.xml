@@ -6,8 +6,6 @@
     android:id="@+id/input_frag"
     tools:context="com.example.kylephan.learningapp.InputFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
