@@ -4,6 +4,13 @@
     <!-- Nav menu strings -->
     <string name="input_fragment">Input Fragment</string>
     <string name="flickr_fragment">Flickr Viewer</string>
+    <string name="balance_fragment">Balance Fragment</string>
+    <string name="flickr_place_holder">No flickr stuff here yet, place holder text</string>
+    <string name="balance_place_holder">No balance stuff here yet, place holder text</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
 
     <!-- Input fragment strings -->
     <string name="display_text">Default</string>

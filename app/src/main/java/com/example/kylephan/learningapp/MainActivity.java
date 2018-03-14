@@ -3,18 +3,29 @@ package com.example.kylephan.learningapp;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.JsonReader;
 import android.view.MenuItem;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
+    private NavigationView navDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,67 +40,61 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                        item.setChecked(true);
+        navDrawer = findViewById(R.id.nav_view);
+        setNavDrawer(navDrawer);
 
-                        displayFragments(item.getItemId());
-                        drawerLayout.closeDrawers();
-
-
-                        return true;
-                    }
-                }
-        );
-
-//        InputFragment inFrag = new InputFragment();
+//        Fragment fragment = new InputFragment();
 //        FragmentManager fragmentManager = getFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.add(R.id.fragment_container, inFrag);
-//        fragmentTransaction.commit();
+//        fragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit();
+
+        // Testing AsyncTask work here
 
     }
 
-    private void displayFragments(int viewId) {
+    private void setNavDrawer(NavigationView navView) {
+        navView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        selectDrawerItem(item);
+                        return false;
+                    }
+                }
+        );
+    }
+
+    private void selectDrawerItem(MenuItem item) {
 
         Fragment fragment = null;
-        String title = getString(R.string.app_name);
-        System.out.println("--------------------------------------No Case");
-        System.out.println(viewId);
-        System.out.println(R.id.input_frag);
-        System.out.println(R.id.flickr_frag);
-        switch (viewId) {
-            case R.id.input_frag:
-                System.out.println("--------------------------------------Case 1");
-                fragment = new InputFragment();
-                title = "Change the Text";
+        Class fragmentClass;
 
+        switch(item.getItemId()) {
+            case R.id.nav_first:
+                fragmentClass = InputFragment.class;
                 break;
-            case R.id.flickr_frag:
-                System.out.println("--------------------------------------Case 2");
-                fragment = new FlickrViewer();
-                title = "View Flickr Photos";
-
+            case R.id.nav_second:
+                fragmentClass = FlickrViewer.class;
+                break;
+            case R.id.nav_third:
+                fragmentClass = BalanceFragment.class;
+                break;
+            default:
+                fragmentClass = InputFragment.class;
         }
 
-        if (fragment != null) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_container, fragment);
-            ft.commit();
-        } else {
-            fragment = new InputFragment();
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.add(R.id.fragment_container, fragment);
-            ft.commit();
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        // set the toolbar title
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(title);
-        }
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+
+        item.setChecked(true);
+        setTitle(item.getTitle());
+        drawerLayout.closeDrawers();
+
     }
 
     @Override
@@ -110,4 +115,14 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+    class RetreiveFeedTask extends AsyncTask<Void, Void, String> {
+
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            return null;
+        }
+    }
+
 }

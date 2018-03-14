@@ -1,9 +1,55 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/flickr_frag"
-    tools:context="com.example.kylephan.learningapp.FlickrViewer">
+    tools:context="com.example.kylephan.learningapp.FlickrViewer"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/flickr_query"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter some text"
+        android:layout_margin="16dp"
+        android:gravity="center_horizontal"/>
+    <Button
+        android:id="@+id/flickr_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit_text"
+        android:layout_marginRight="16dp"
+        android:layout_gravity="end"/>
+
+    <TextView
+        android:id="@+id/flickr_display"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:text="@string/flickr_place_holder"
+        android:textSize="30sp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/responseView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+    </RelativeLayout>
 
 
-</FrameLayout>
+
+</LinearLayout>
