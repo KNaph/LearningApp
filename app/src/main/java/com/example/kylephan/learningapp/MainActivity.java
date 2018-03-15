@@ -3,7 +3,6 @@ package com.example.kylephan.learningapp;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -47,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
 //        FragmentManager fragmentManager = getFragmentManager();
 //        fragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit();
 
-        // Testing AsyncTask work here
 
     }
 
@@ -115,14 +113,4 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
-    class RetreiveFeedTask extends AsyncTask<Void, Void, String> {
-
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            return null;
-        }
-    }
-
 }
