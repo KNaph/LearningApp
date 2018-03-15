@@ -6,6 +6,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_first"
+            android:checked="true"
             android:title="@string/input_fragment" />
         <item
             android:id="@+id/nav_second"

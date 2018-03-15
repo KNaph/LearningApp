@@ -2,29 +2,23 @@ package com.example.kylephan.learningapp;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.JsonReader;
 import android.view.MenuItem;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
+import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navDrawer;
+    private InputFragment inputFrag;
+    private FlickrViewerFragment flickrFrag;
+    private BalanceFragment balanceFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
 //        FragmentManager fragmentManager = getFragmentManager();
 //        fragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit();
 
+        inputFrag = new InputFragment();
+        flickrFrag = new FlickrViewerFragment();
+        balanceFragment = new BalanceFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, inputFrag).commit();
 
     }
 
@@ -63,31 +62,46 @@ public class MainActivity extends AppCompatActivity {
 
     private void selectDrawerItem(MenuItem item) {
 
+        FragmentManager fragmentManager = getFragmentManager();
         Fragment fragment = null;
         Class fragmentClass;
 
+//        switch(item.getItemId()) {
+//            case R.id.nav_first:
+//                fragmentClass = InputFragment.class;
+//                break;
+//            case R.id.nav_second:
+//                fragmentClass = FlickrViewerFragment.class;
+//                break;
+//            case R.id.nav_third:
+//                fragmentClass = BalanceFragment.class;
+//                break;
+//            default:
+//                fragmentClass = InputFragment.class;
+//        }
+//
+//        try {
+//            fragment = (Fragment) fragmentClass.newInstance();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+
         switch(item.getItemId()) {
             case R.id.nav_first:
-                fragmentClass = InputFragment.class;
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, inputFrag).commit();
                 break;
             case R.id.nav_second:
-                fragmentClass = FlickrViewer.class;
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, flickrFrag).commit();
                 break;
             case R.id.nav_third:
-                fragmentClass = BalanceFragment.class;
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, balanceFragment).commit();
                 break;
             default:
-                fragmentClass = InputFragment.class;
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, inputFrag).commit();
         }
-
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
 
         item.setChecked(true);
         setTitle(item.getTitle());
@@ -112,5 +126,13 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        TextView textView = findViewById(R.id.textDisplay);
+
     }
 }

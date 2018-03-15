@@ -26,6 +26,9 @@ public class InputFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private final String defaultString = "Modify this text!";
+    private final int defaultTextSize = 24;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -72,8 +75,6 @@ public class InputFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
     }
 
     @Override
@@ -88,6 +89,13 @@ public class InputFragment extends Fragment {
         wordButton = inflatedView.findViewById(R.id.wordButton);
         numberButton = inflatedView.findViewById(R.id.numberButton);
         textDisplay = inflatedView.findViewById(R.id.textDisplay);
+        if (userWord == null) {
+            textDisplay.setText(defaultString);
+            textDisplay.setTextSize(defaultTextSize);
+        } else {
+            textDisplay.setText(userWord);
+            textDisplay.setTextSize(userNumber);
+        }
         setButtonListeners();
         return inflatedView;
     }
