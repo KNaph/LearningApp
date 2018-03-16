@@ -2,6 +2,8 @@ package com.example.kylephan.learningapp;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,13 +14,15 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AbstractFragment.OnFragmentInteractionListener{
 
     private DrawerLayout drawerLayout;
     private NavigationView navDrawer;
     private InputFragment inputFrag;
     private FlickrViewerFragment flickrFrag;
     private BalanceFragment balanceFragment;
+
+    private String appTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,44 +67,20 @@ public class MainActivity extends AppCompatActivity {
     private void selectDrawerItem(MenuItem item) {
 
         FragmentManager fragmentManager = getFragmentManager();
-        Fragment fragment = null;
-        Class fragmentClass;
-
-//        switch(item.getItemId()) {
-//            case R.id.nav_first:
-//                fragmentClass = InputFragment.class;
-//                break;
-//            case R.id.nav_second:
-//                fragmentClass = FlickrViewerFragment.class;
-//                break;
-//            case R.id.nav_third:
-//                fragmentClass = BalanceFragment.class;
-//                break;
-//            default:
-//                fragmentClass = InputFragment.class;
-//        }
-//
-//        try {
-//            fragment = (Fragment) fragmentClass.newInstance();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         switch(item.getItemId()) {
             case R.id.nav_first:
-                fragmentManager.beginTransaction().replace(R.id.fragment_container, inputFrag).commit();
+                fragmentTransaction.replace(R.id.fragment_container, inputFrag).addToBackStack(null).commit();
                 break;
             case R.id.nav_second:
-                fragmentManager.beginTransaction().replace(R.id.fragment_container, flickrFrag).commit();
+                fragmentTransaction.replace(R.id.fragment_container, flickrFrag).addToBackStack(null).commit();
                 break;
             case R.id.nav_third:
-                fragmentManager.beginTransaction().replace(R.id.fragment_container, balanceFragment).commit();
+                fragmentTransaction.replace(R.id.fragment_container, balanceFragment).addToBackStack(null).commit();
                 break;
             default:
-                fragmentManager.beginTransaction().replace(R.id.fragment_container, inputFrag).commit();
+                fragmentTransaction.replace(R.id.fragment_container, inputFrag).addToBackStack(null).commit();
         }
 
         item.setChecked(true);
@@ -121,18 +101,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawers();
+        }
         if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
         } else {
-            super.onBackPressed();
+//            super.onBackPressed();
         }
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        TextView textView = findViewById(R.id.textDisplay);
-
+    public void onFragmentInteraction(String string) {
+        this.appTitle = string;
+        setTitle(string);
     }
 }
