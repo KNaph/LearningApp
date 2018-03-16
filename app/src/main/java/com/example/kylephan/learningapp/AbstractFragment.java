@@ -1,7 +1,6 @@
 package com.example.kylephan.learningapp;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 
@@ -17,6 +16,7 @@ public class AbstractFragment extends Fragment {
     private String mParam2;
 
     private String fragmentTitle;
+    private int navId;
 
     private OnFragmentInteractionListener mListener;
 
@@ -55,10 +55,14 @@ public class AbstractFragment extends Fragment {
         fragmentTitle = title;
     }
 
+    protected void setNavId(int item) {
+        navId = item;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        mListener.onFragmentInteraction(fragmentTitle);
+        mListener.onFragmentInteraction(fragmentTitle, navId);
     }
 
     /**
@@ -73,6 +77,6 @@ public class AbstractFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(String string);
+        void onFragmentInteraction(String fragTitle, int navId);
     }
 }

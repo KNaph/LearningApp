@@ -10,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements AbstractFragment.
         balanceFragment = new BalanceFragment();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragment_container, inputFrag).commit();
-
+        setBackStackListener();
     }
 
     private void setNavDrawer(NavigationView navView) {
@@ -62,6 +63,28 @@ public class MainActivity extends AppCompatActivity implements AbstractFragment.
                     }
                 }
         );
+    }
+
+    private void setBackStackListener() {
+        getFragmentManager().addOnBackStackChangedListener(
+                new FragmentManager.OnBackStackChangedListener() {
+                    public void onBackStackChanged() {
+                        // Update your UI here.
+//                        setTitle();
+//                        findCurrentFragment();
+
+                    }
+                });
+    }
+
+    private void findCurrentFragment() {
+        Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
+        Log.e("What type?", fragment.getClass().toString());
+        switch (fragment.getClass().toString()) {
+            case "com.example.kylephan.learningapp.InputFragment":
+                Log.d(  "Find Current Fragment", "Found the current fragment" + fragment.getClass().toString());
+                setTitle(fragment.getClass().toString());
+        }
     }
 
     private void selectDrawerItem(MenuItem item) {
@@ -112,8 +135,8 @@ public class MainActivity extends AppCompatActivity implements AbstractFragment.
     }
 
     @Override
-    public void onFragmentInteraction(String string) {
-        this.appTitle = string;
-        setTitle(string);
+    public void onFragmentInteraction(String fragTitle, int navId) {
+        setTitle(fragTitle);
+        navDrawer.getMenu().findItem(navId).setChecked(true);
     }
 }

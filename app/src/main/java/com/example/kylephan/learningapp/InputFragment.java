@@ -1,6 +1,5 @@
 package com.example.kylephan.learningapp;
 
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -75,6 +74,7 @@ public class InputFragment extends AbstractFragment {
 
         // TESTING LISTENER ------------------------------------------------------
         super.setFragmentTitle("Input Fragment");
+        super.setNavId(R.id.nav_first);
 
         // Restoring previous fragment text state
         if ((userWord != null) && (userNumber != null)) {
