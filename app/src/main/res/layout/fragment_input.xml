@@ -85,9 +85,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
-     <!--TODO: remove this tag if I can set default text in inputFragment-->
-    <!--android:text="@string/display_text"-->
-    <!--android:textSize="24sp"-->
-
 
 </android.support.constraint.ConstraintLayout>
