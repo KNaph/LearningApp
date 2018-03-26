@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class InputFragment extends AbstractFragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -26,16 +29,17 @@ public class InputFragment extends AbstractFragment {
     private String mParam1;
     private String mParam2;
 
+
     private String userWord;
     private Float userNumber;
 
-    private EditText wordInput;
-    private EditText numberInput;
+    @BindView(R.id.wordInput) EditText wordInput;
+    @BindView(R.id.numberInput) EditText numberInput;
 
-    private Button wordButton;
-    private Button numberButton;
+    @BindView(R.id.wordButton) Button wordButton;
+    @BindView(R.id.numberButton) Button numberButton;
 
-    private TextView textDisplay;
+    @BindView(R.id.textDisplay) TextView textDisplay;
 
     public InputFragment() {
         // Required empty public constructor
@@ -65,12 +69,7 @@ public class InputFragment extends AbstractFragment {
 
         View inflatedView = inflater.inflate(R.layout.fragment_input, container, false);
 
-        // Inflate the layout for this fragment
-        wordInput = inflatedView.findViewById(R.id.wordInput);
-        numberInput = inflatedView.findViewById(R.id.numberInput);
-        wordButton = inflatedView.findViewById(R.id.wordButton);
-        numberButton = inflatedView.findViewById(R.id.numberButton);
-        textDisplay = inflatedView.findViewById(R.id.textDisplay);
+        ButterKnife.bind(this,inflatedView);
 
         // TESTING LISTENER ------------------------------------------------------
         super.setFragmentTitle("Input Fragment");

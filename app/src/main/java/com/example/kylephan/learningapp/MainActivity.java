@@ -10,47 +10,46 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class MainActivity extends AppCompatActivity implements AbstractFragment.OnFragmentInteractionListener{
 
-    private DrawerLayout drawerLayout;
-    private NavigationView navDrawer;
+
+    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @BindView(R.id.nav_view) NavigationView navDrawer;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+
     private InputFragment inputFrag;
     private FlickrViewerFragment flickrFrag;
     private BalanceFragment balanceFragment;
-
-    private String appTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        drawerLayout = findViewById(R.id.drawer_layout);
-        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        navDrawer = findViewById(R.id.nav_view);
         setNavDrawer(navDrawer);
-
-//        Fragment fragment = new InputFragment();
-//        FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit();
 
         inputFrag = new InputFragment();
         flickrFrag = new FlickrViewerFragment();
         balanceFragment = new BalanceFragment();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragment_container, inputFrag).commit();
-        setBackStackListener();
     }
 
     private void setNavDrawer(NavigationView navView) {
@@ -63,28 +62,6 @@ public class MainActivity extends AppCompatActivity implements AbstractFragment.
                     }
                 }
         );
-    }
-
-    private void setBackStackListener() {
-        getFragmentManager().addOnBackStackChangedListener(
-                new FragmentManager.OnBackStackChangedListener() {
-                    public void onBackStackChanged() {
-                        // Update your UI here.
-//                        setTitle();
-//                        findCurrentFragment();
-
-                    }
-                });
-    }
-
-    private void findCurrentFragment() {
-        Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
-        Log.e("What type?", fragment.getClass().toString());
-        switch (fragment.getClass().toString()) {
-            case "com.example.kylephan.learningapp.InputFragment":
-                Log.d(  "Find Current Fragment", "Found the current fragment" + fragment.getClass().toString());
-                setTitle(fragment.getClass().toString());
-        }
     }
 
     private void selectDrawerItem(MenuItem item) {
