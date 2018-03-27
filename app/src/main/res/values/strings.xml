@@ -13,10 +13,11 @@
 
 
     <!-- Input fragment strings -->
-    <string name="display_text">Default</string>
+    <string name="display_text">Modify this text!</string>
     <string name="word_input">Enter a word</string>
     <string name="number_input">Enter a number</string>
     <string name="submit_text">Submit</string>
+    <string name="color_picker">Color Picker</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

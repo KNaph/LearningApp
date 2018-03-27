@@ -1,8 +1,8 @@
 package com.example.kylephan.learningapp;
 
-import android.os.Build;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
+import android.support.annotation.ColorInt;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
+import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 
 
 public class InputFragment extends AbstractFragment {
@@ -21,17 +26,17 @@ public class InputFragment extends AbstractFragment {
     private final String defaultString = "Modify this text!";
     private final int defaultTextSize = 24;
 
-
     private String userWord;
     private Float userNumber;
 
     @BindView(R.id.wordInput) EditText wordInput;
     @BindView(R.id.numberInput) EditText numberInput;
-
-    @BindView(R.id.wordButton) Button wordButton;
-    @BindView(R.id.numberButton) Button numberButton;
-
     @BindView(R.id.textDisplay) TextView textDisplay;
+
+    private final int defaultAlpha = 255;
+    private final int defaultColor = 0;
+
+    private ColorPicker colorPicker;
 
     public InputFragment() {
         // Required empty public constructor
@@ -49,6 +54,12 @@ public class InputFragment extends AbstractFragment {
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+         colorPicker = new ColorPicker(getActivity(), defaultAlpha, defaultColor, defaultColor, defaultColor);
     }
 
     @Override
@@ -77,38 +88,41 @@ public class InputFragment extends AbstractFragment {
             textDisplay.setText(defaultString);
             textDisplay.setTextSize(defaultTextSize);
         }
-        setButtonListeners();
         return inflatedView;
     }
 
+    @OnClick(R.id.colorButton)
+    public void onColorClick() {
+        colorPicker.show();
 
-    private void setButtonListeners() {
-        wordButton.setOnClickListener(new View.OnClickListener()     {
-
-            @RequiresApi(api = Build.VERSION_CODES.M)
+        colorPicker.setCallback(new ColorPickerCallback() {
             @Override
-            public void onClick(View view) {
-                if (wordInput.getText().length() != 0) {
-                    userWord = wordInput.getText().toString();
-                    textDisplay.setText(userWord);
-                } else {
-                    Toast.makeText(getContext(), "Invalid text input", Toast.LENGTH_SHORT).show();
-                }
+            public void onColorChosen(@ColorInt int color) {
+                textDisplay.setTextColor(color);
+                colorPicker.hide();
             }
         });
+    }
 
-        numberButton.setOnClickListener(new View.OnClickListener()     {
+    @OnClick(R.id.wordButton)
+    public void onWordClick() {
+        if (wordInput.getText().length() != 0) {
+            userWord = wordInput.getText().toString();
+            textDisplay.setText(userWord);
+            Toast.makeText(getContext(),"Hey stop changing the text!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Invalid text input", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View view) {
-                if (!TextUtils.isEmpty((CharSequence) numberInput.getText().toString())) {
-                    userNumber = Float.valueOf(numberInput.getText().toString());
-                    textDisplay.setTextSize(userNumber);
-                } else {
-                    Toast.makeText(getContext(), "Invalid number input", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    @OnClick(R.id.numberButton)
+    public void onNumberClick() {
+        if (!TextUtils.isEmpty((CharSequence) numberInput.getText().toString())) {
+            userNumber = Float.valueOf(numberInput.getText().toString());
+            textDisplay.setTextSize(userNumber);
+            Toast.makeText(getContext(),"Hey stop changing the text!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Invalid number input", Toast.LENGTH_SHORT).show();
+        }
     }
 }

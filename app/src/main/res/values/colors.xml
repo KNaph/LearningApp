@@ -6,4 +6,6 @@
     <color name="bg">#ffffff</color>
     <color name="bgWindowColor">#878787</color>
     <color name="bgColor">#a37777</color>
+    <color name="selectedTab">#aa42e0f5</color>
+    <color name="defaultTab">#a0878787</color>
 </resources>

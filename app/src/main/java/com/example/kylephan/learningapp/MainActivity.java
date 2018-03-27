@@ -1,11 +1,8 @@
 package com.example.kylephan.learningapp;
 
-import android.app.Fragment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +13,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,8 +55,6 @@ public class MainActivity extends AppCompatActivity implements AbstractFragment.
         inputFrag = new InputFragment();
         flickrFrag = new FlickrViewerFragment();
         balanceFragment = new BalanceFragment();
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.fragment_container, inputFrag).commit();
     }
 
     private void setNavDrawer(NavigationView navView) {
@@ -132,14 +126,21 @@ public class MainActivity extends AppCompatActivity implements AbstractFragment.
 
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
-            if (position == 0) {
-                return inputFrag;
-            } else if (position == 1) {
-                return flickrFrag;
-            } else {
-                return balanceFragment;
-            }
 
+            switch(position) {
+                case 0:
+                    Log.d("Pager Adapter", "Case 0: Input Fragment");
+                    return inputFrag;
+                case 1:
+                    Log.d("Pager Adapter", "Case 1: Flickr Fragment");
+                    return flickrFrag;
+                case 2:
+                    Log.d("Pager Adapter", "Case 2: Balance Fragment");
+                    return balanceFragment;
+                default:
+                    Log.d("Pager Adapter", "Default Case: Input Fragment");
+                    return inputFrag;
+            }
         }
 
         @Override
