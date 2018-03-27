@@ -1,12 +1,15 @@
 package com.example.kylephan.learningapp;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +28,11 @@ public class MainActivity extends AppCompatActivity implements AbstractFragment.
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.nav_view) NavigationView navDrawer;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.tab_layout) TabLayout tabLayout;
+
+    private final int NUM_PAGES = 3;
+
+    @BindView(R.id.fragment_container) ViewPager mPager;
 
     private InputFragment inputFrag;
     private FlickrViewerFragment flickrFrag;
@@ -39,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements AbstractFragment.
 
         setSupportActionBar(toolbar);
 
+        mPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
+        tabLayout.setupWithViewPager(mPager, true);
+
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -48,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements AbstractFragment.
         inputFrag = new InputFragment();
         flickrFrag = new FlickrViewerFragment();
         balanceFragment = new BalanceFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, inputFrag).commit();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id.fragment_container, inputFrag).commit();
     }
 
     private void setNavDrawer(NavigationView navView) {
@@ -66,21 +77,18 @@ public class MainActivity extends AppCompatActivity implements AbstractFragment.
 
     private void selectDrawerItem(MenuItem item) {
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         switch(item.getItemId()) {
             case R.id.nav_first:
-                fragmentTransaction.replace(R.id.fragment_container, inputFrag).addToBackStack(null).commit();
+                mPager.setCurrentItem(0);
                 break;
             case R.id.nav_second:
-                fragmentTransaction.replace(R.id.fragment_container, flickrFrag).addToBackStack(null).commit();
+                mPager.setCurrentItem(1);
                 break;
             case R.id.nav_third:
-                fragmentTransaction.replace(R.id.fragment_container, balanceFragment).addToBackStack(null).commit();
+                mPager.setCurrentItem(2);
                 break;
             default:
-                fragmentTransaction.replace(R.id.fragment_container, inputFrag).addToBackStack(null).commit();
+                mPager.setCurrentItem(0);
         }
 
         item.setChecked(true);
@@ -115,5 +123,28 @@ public class MainActivity extends AppCompatActivity implements AbstractFragment.
     public void onFragmentInteraction(String fragTitle, int navId) {
         setTitle(fragTitle);
         navDrawer.getMenu().findItem(navId).setChecked(true);
+    }
+
+    private class PagerAdapter extends FragmentPagerAdapter {
+        public PagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public android.support.v4.app.Fragment getItem(int position) {
+            if (position == 0) {
+                return inputFrag;
+            } else if (position == 1) {
+                return flickrFrag;
+            } else {
+                return balanceFragment;
+            }
+
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
     }
 }
