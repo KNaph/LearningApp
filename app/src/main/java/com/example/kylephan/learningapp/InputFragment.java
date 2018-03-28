@@ -29,6 +29,7 @@ public class InputFragment extends AbstractFragment {
     private String userWord;
     private Float userNumber;
     private int userColor = -1;
+    private int defaultBlack = -16777216;
 
     @BindView(R.id.wordInput) EditText wordInput;
     @BindView(R.id.numberInput) EditText numberInput;
@@ -88,7 +89,7 @@ public class InputFragment extends AbstractFragment {
         } if (userColor != -1) {
             textDisplay.setTextColor(userColor);
         } else {
-            textDisplay.setTextColor(-16777216);
+            textDisplay.setTextColor(Color.parseColor("#000000"));
         }
 
         return inflatedView;
