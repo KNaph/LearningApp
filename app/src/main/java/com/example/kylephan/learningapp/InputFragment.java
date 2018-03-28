@@ -28,6 +28,7 @@ public class InputFragment extends AbstractFragment {
 
     private String userWord;
     private Float userNumber;
+    private int userColor = -1;
 
     @BindView(R.id.wordInput) EditText wordInput;
     @BindView(R.id.numberInput) EditText numberInput;
@@ -35,6 +36,7 @@ public class InputFragment extends AbstractFragment {
 
     private final int defaultAlpha = 255;
     private final int defaultColor = 0;
+
 
     private ColorPicker colorPicker;
 
@@ -75,19 +77,20 @@ public class InputFragment extends AbstractFragment {
         super.setNavId(R.id.nav_first);
 
         // Restoring previous fragment text state
-        if ((userWord != null) && (userNumber != null)) {
+        if (userWord != null) {
             textDisplay.setText(userWord);
-            textDisplay.setTextSize(userNumber);
-        } else if ((userWord != null) && (userNumber == null)) {
-            textDisplay.setText(userWord);
-            textDisplay.setTextSize(defaultTextSize);
-        } else if ((userWord == null) && (userNumber != null)){
-            textDisplay.setText(defaultString);
-            textDisplay.setTextSize(userNumber);
         } else {
             textDisplay.setText(defaultString);
+        } if (userNumber != null) {
+            textDisplay.setTextSize(userNumber);
+        } else {
             textDisplay.setTextSize(defaultTextSize);
+        } if (userColor != -1) {
+            textDisplay.setTextColor(userColor);
+        } else {
+            textDisplay.setTextColor(-16777216);
         }
+
         return inflatedView;
     }
 
@@ -99,6 +102,7 @@ public class InputFragment extends AbstractFragment {
             @Override
             public void onColorChosen(@ColorInt int color) {
                 textDisplay.setTextColor(color);
+                userColor = color;
                 colorPicker.hide();
             }
         });
